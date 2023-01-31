@@ -17,7 +17,7 @@ class userLogic(APIView):
         if serializer.is_valid():
             serializer.save()
 
-            return Response(data=serializer.data)
+            return Response(data="success")
         else:
             return Response(data=serializer.errors)
 
@@ -36,8 +36,11 @@ class Login(APIView):
             refresh = RefreshToken.for_user(user)
 
             
-
-            return Response(data = str(refresh.access_token), status=status.HTTP_200_OK)
+            data = {
+                "token": str(refresh.access_token),
+                "message": "login successful"
+            }
+            return Response(data = data, status=status.HTTP_200_OK)
         else:
-            return Response(data = "No credentials Found", status=status.HTTP_400_BAD_REQUEST)    
+            return Response(data = {"message": "No credentials Found"}, status=status.HTTP_200_OK)    
 
